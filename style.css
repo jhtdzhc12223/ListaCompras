@@ -1,0 +1,181 @@
+/* Estilo Cyberpunk Futurista */
+:root {
+  --bg-dark: #0a0a0a;
+  --neon-purple: #bc13fe;
+  --neon-blue: #0ff0fc;
+  --neon-pink: #ff44cc;
+  --text-glow: rgba(188, 19, 254, 0.8);
+  --box-glow: rgba(15, 240, 252, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: white;
+  min-height: 100vh;
+  padding: 2rem;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(15, 240, 252, 0.1) 0%, transparent 20%);
+}
+
+h2 {
+  color: var(--neon-blue);
+  text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* Container Principal */
+body > div {
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px solid var(--neon-purple);
+  box-shadow: 0 0 20px var(--text-glow);
+  padding: 2rem;
+  border-radius: 5px;
+  background-color: rgba(10, 10, 10, 0.8);
+}
+
+/* Lista de Compras */
+#lista {
+  list-style: none;
+  margin: 2rem 0;
+}
+
+#lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: rgba(20, 20, 30, 0.7);
+  border-left: 3px solid var(--neon-purple);
+  color: var(--neon-blue);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+#lista li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 0 15px var(--box-glow);
+}
+
+/* Input e Botões */
+input {
+  background-color: rgba(30, 30, 40, 0.8);
+  border: 1px solid var(--neon-blue);
+  color: white;
+  padding: 0.8rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 10px var(--text-glow);
+}
+
+button {
+  background: none;
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+  padding: 0.8rem 1.5rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+  transition: 0.5s;
+}
+
+button:hover {
+  background-color: rgba(188, 19, 254, 0.1);
+  box-shadow: 0 0 10px var(--text-glow), 0 0 20px var(--text-glow);
+  color: white;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Botão de Remover */
+#lista li button {
+  padding: 0.3rem 0.8rem;
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  font-size: 0.8rem;
+}
+
+#lista li button:hover {
+  background-color: rgba(255, 68, 204, 0.1);
+  box-shadow: 0 0 8px rgba(255, 68, 204, 0.6);
+}
+
+/* Botão de Sair */
+button[onclick="logout()"] {
+  float: right;
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+}
+
+/* Página de Login */
+#email, #senha {
+  display: block;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* Efeitos de Glow */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.glow-text {
+  animation: pulse 2s infinite;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+  
+  button {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
