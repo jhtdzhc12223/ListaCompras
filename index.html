@@ -1,26 +1,22 @@
-<!-- Página principal após login -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Compras</title>
+    <title>CyberList - Lista de Compras Futurista</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Minha Lista de Compras</h2>
+    <div>
+        <h2 class="glow-text">CYBER LIST</h2>
+        <button onclick="logout()">Sair</button>
+        
+        <ul id="lista"></ul>
+        
+        <input type="text" id="item" placeholder=">> Adicionar item">
+        <button onclick="adicionarItem()">Executar</button>
+    </div>
 
-    <!-- Botão para sair da conta -->
-    <button onclick="logout()">Sair</button>
-
-    <!-- Lista onde os itens serão renderizados -->
-    <ul id="lista"></ul>
-
-    <!-- Campo de input para adicionar novo item -->
-    <input type="text" id="item" placeholder="Novo item">
-    <button onclick="adicionarItem()">Adicionar</button>
-
-    <!-- Importa a lógica principal do app -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
