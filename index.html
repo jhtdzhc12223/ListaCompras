@@ -1,27 +1,24 @@
-index.html
-<!-- Página principal após login -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Compras</title>
+    <title>Document</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Minha Lista de Compras</h2>
+    <h2 class="titulo">Minha lista de Compras</h2>
 
-    <!-- Botão para sair da conta -->
+    <!--botão para sair da conta-->
     <button onclick="logout()">Sair</button>
 
-    <!-- Lista onde os itens serão renderizados -->
+    <!--lista onde os itens serão renderizados-->
     <ul id="lista"></ul>
 
-    <!-- Campo de input para adicionar novo item -->
-    <input type="text" id="item" placeholder="Novo item">
-    <button onclick="adicionarItem()">Adicionar</button>
+    <!--input e botão para incluir itens-->
+    <input type="text" name="" id="item" placeholder="Novo Item">
+    <button onclick="adicionarItem()" >Adicionar</button>
 
-    <!-- Importa a lógica principal do app -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
