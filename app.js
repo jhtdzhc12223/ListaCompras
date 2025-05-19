@@ -60,3 +60,10 @@ window.logout = async function () {
 
 // Inicializa: verifica se o usuário está logado e carrega a lista
 getUser().then(carregarLista)
+
+// enter funciona para adicionar item
+document.addEventListener('keydown'), function (event) {
+  if (event.key === 'Enter') {
+      adicionarItem()
+ }
+}
