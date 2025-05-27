@@ -3,8 +3,8 @@
 
 /*------------VARIÁVEIS GLOBAIS------------------*/
 :root {
-    --cor-primaria: #;
-    --cor-primaria-escura: #;
+    --cor-primaria: #93A3B1;
+    --cor-primaria-escura: #7C898B;
     --cor-bg: #f5f7fa;
     --cor-branco: #ffffff;
     --cor-borda: #ddd;
@@ -16,4 +16,18 @@
     --raio: 0.8rem;
     --transition: 0.3s ease;
 
+}
+
+/** -------- reset css--------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*-------body----------*/
+body {
+    font-family: var(--fonte);
+    background: #2A7B9B;
+background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 80%, rgba(237, 221, 83, 1) 100%);
 }
