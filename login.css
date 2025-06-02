@@ -28,9 +28,9 @@
 /*-------body----------*/
 body {
     font-family: var(--fonte);
-    background: #2A7B9B;
-background: linear-gradient(90deg, 
-  rgba(2, 0, 36, 1) 0%, 
-  rgba(9, 0, 121, 1) 80%, 
-  rgba(0, 212, 255, 1) 100%
-);
+    background: linear-gradient(90deg, 
+        rgba(2, 0, 36, 1) 0%, 
+        rgba(9, 0, 121, 1) 80%, 
+        rgba(0, 212, 255, 1) 100%
+    );
+}
