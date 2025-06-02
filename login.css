@@ -3,12 +3,12 @@
 
 /*------------VARIÁVEIS GLOBAIS------------------*/
 :root {
-    --cor-primaria: #93A3B1;
-    --cor-primaria-escura: #7C898B;
-    --cor-bg: #f5f7fa;
+    --cor-primaria: #020024;
+    --cor-primaria-escura: #090979;
+    --cor-bg: #00D4FF;
     --cor-branco: #ffffff;
     --cor-borda: #ddd;
-    --cor-sombra: rgba(0, 0, 0, 0.15);
+    --cor-sombra: 0 0 10px rgba(0, 0, 0, 0.15);
     --cor-texto: #333;
 
     --fonte: 'Roboto', sans-serif;
