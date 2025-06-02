@@ -77,3 +77,35 @@ input:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(107. 115, 255, 0.25);
 }
+
+.botoes{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+button{
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--raio);
+    background-color: var(--cor-primaria);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--cor-primaria-escura);
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    input, button {
+        font-size: 0.95rem;
+    }
+}
