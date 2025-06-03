@@ -49,6 +49,14 @@ background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 
     text-align: center;
 }
 
+/**---------logo---------*/
+#logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: var(--raio);
+}
+
 /*-------título------------*/
 .titulo {
     font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
@@ -93,6 +101,19 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: var(--cor-primaria-escura);
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    input, button {
+        font-size: 0.95rem;
+    }
+}
 button:hover {
     background-color: var(--cor-primaria-escura);
 }
