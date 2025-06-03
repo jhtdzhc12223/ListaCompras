@@ -3,13 +3,13 @@
 
 /*------------VARIÁVEIS GLOBAIS------------------*/
 :root {
-    --cor-primaria: #020024;
-    --cor-primaria-escura: #ffffff;
-    --cor-bg: #00D4FF;
+    --cor-primaria: #93A3B1;
+    --cor-primaria-escura: #7C898B;
+    --cor-bg: #f5f7fa;
     --cor-branco: #ffffff;
     --cor-borda: #ddd;
-    --cor-sombra: 0 0 10px rgba(0, 0, 0, 0.15);
-    --cor-texto: #ffffff;
+    --cor-sombra: rgba(0, 0, 0, 0.15);
+    --cor-texto: #333;
 
     --fonte: 'Roboto', sans-serif;
 
@@ -26,20 +26,15 @@
 }
 
 /*-------body----------*/
-/* ----- Body ----- */
 body {
     font-family: var(--fonte);
-    background: linear-gradient(90deg, 
-        rgba(2, 0, 36, 1) 0%, 
-        rgba(9, 0, 121, 1) 80%, 
-        rgba(0, 212, 255, 1) 100%
-    );
+    background: #2A7B9B;
+background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 80%, rgba(237, 221, 83, 1) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    margin: 0;
 }
 
 
@@ -62,8 +57,9 @@ body {
     font-weight: 500;
 }
 
-input{
-    width:100%;
+/*--------inputs--------*/
+input {
+    width: 100%;
     padding: 14px;
     margin: 10px 0;
     border: 1px solid var(--cor-borda);
@@ -75,17 +71,18 @@ input{
 input:focus {
     border-color: var(--cor-primaria);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(107. 115, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.25);
 }
 
-.botoes{
+/*-------botoes------*/
+.botoes {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 20px;
 }
 
-button{
+button {
     padding: 12px;
     font-size: 1rem;
     font-weight: 500;
