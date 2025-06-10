@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Lista de Compras</title>
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <div class="container">
-        <img id="logo" src="img/logo512x512.png" alt="logo">
+        <img id="logo" src="icons/icon-512x512.png" alt="logo">
         <h2 class="titulo">Login</h2>
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="senha" placeholder="Senha">
@@ -20,6 +20,20 @@
     </div>
 
     <script type="module" src="auth.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registrado com sucesso:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Falha ao registrar o ServiceWorker:', error);
+                    });
+            });
+        }
+    </script>
 
 </body>
 </html>
