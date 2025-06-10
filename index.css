@@ -1,10 +1,10 @@
-/* ---------- Fonte Roboto ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+/*---------FONTE---------*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* ---------- Variáveis globais ---------- */
+/*------------VARIÁVEIS GLOBAIS------------------*/
 :root {
-    --cor-primaria: #1175cc;
-    --cor-primaria-escura: #3a6180;
+    --cor-primaria: #93A3B1;
+    --cor-primaria-escura: #7C898B;
     --cor-bg: #f5f7fa;
     --cor-branco: #ffffff;
     --cor-borda: #ddd;
@@ -18,24 +18,38 @@
 
 }
 
-/* ---------- Reset básico ---------- */
+/** -------- reset css--------*/
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/*-------body----------*/
 body {
-  font-family: var(--fonte);
-  background-color: var(--cor-bg);
-  padding: 2rem;
-  min-height: 100vh;
-  color: var(--cor-texto);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    font-family: var(--fonte);
+    background: #2A7B9B;
+background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 80%, rgba(237, 221, 83, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
+
+/* --------container-------*/
+.container {
+    background: var(--cor-bg);
+    padding: clamp(2rem, 5vw, 3rem);
+    border-radius: var(--raio);
+    box-shadow: 0 8px 24px var(--cor-sombra);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/**---------logo---------*/
 #logo {
     width: 150px;
     height: auto;
@@ -43,158 +57,60 @@ body {
     border-radius: var(--raio);
 }
 
-/* ---------- Título ---------- */
+/*-------título------------*/
 .titulo {
-  font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
-  margin-bottom: 2rem;
-  text-align: center;
+    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+    color: var(--cor-texto);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
 }
 
-/* ---------- Botão de logout ---------- */
-button[onclick="logout()"] {
-  align-self: center;
-  margin-bottom: 1.5rem;
-  background-color: var(--cor-primaria);
-  color: var(--cor-branco);
-  padding: 10px 16px;
-  border: none;
-  border-radius: var(--raio);
-  cursor: pointer;
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-button[onclick="logout()"]:hover {
-  background-color: var(--cor-primaria-escura);
-}
-
-/* ---------- Lista ---------- */
-#lista {
-  width: 100%;
-  max-width: 600px;
-  list-style: none;
-  margin-bottom: 2rem;
-  padding: 0;
-}
-
-#lista li {
-  background-color: var(--cor-branco);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 6px var(--cor-sombra);
-}
-
-#lista button {
-  background-color: #ff5c5c;
-  color: var(--cor-branco);
-  border: none;
-  padding: 6px 12px;
-  border-radius: var(--raio);
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: var(--transition);
-}
-
-#lista button:hover {
-  background-color: #d33c3c;
-}
-
-/* ---------- Input + botão de adicionar ---------- */
-#item {
-  width: 100%;
-  max-width: 400px;
-  padding: 14px;
-  margin-bottom: 12px;
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-#item:focus {
-  border-color: var(--cor-primaria-escura);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.25);
-}
-
-button[onclick="adicionarItem()"] {
-  padding: 12px 20px;
-  background-color: var(--cor-primaria);
-  color: var(--cor-branco);
-  border: none;
-  border-radius: var(--raio);
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-button[onclick="adicionarItem()"]:hover {
-  background-color: var(--cor-primaria-escura);
-}
-
-/* ---------- Responsivo ---------- */
-@media (max-width: 500px) {
-  body {
-    padding: 1rem;
-  }
-
-  #item {
+/*--------inputs--------*/
+input {
     width: 100%;
-  }
+    padding: 14px;
+    margin: 10px 0;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    font-size: 1rem;
+    transition: var(--transition);
+}
 
-  #lista li {
+input:focus {
+    border-color: var(--cor-primaria);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.25);
+}
+
+/*-------botoes------*/
+.botoes {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  button[onclick="logout()"] {
-    align-self: center;
-  }
+    gap: 12px;
+    margin-top: 20px;
 }
 
-.logo {
-  width: 150px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-/* ---------- Input group ---------- */
-.input-group {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
-}
-
-.input-group input[type="text"] {
-    flex: 1;
-}
-
-.input-group input[type="number"] {
-    width: 80px;
-}
-
-.item-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.item-info input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+button {
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--raio);
+    background-color: var(--cor-primaria);
+    transition: var(--transition);
     cursor: pointer;
 }
 
-.item-comprado .item-info span {
-    text-decoration: line-through;
-    color: #888;
+button:hover {
+    background-color: var(--cor-primaria-escura);
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    input, button {
+        font-size: 0.95rem;
+    }
 }
