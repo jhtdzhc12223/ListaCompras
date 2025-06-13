@@ -1,64 +1,200 @@
-const CACHE_NAME = 'lista-compras-v1';
-const urlsToCache = [
-  '/',
-  '/login.html',
-  '/login.css',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-72x72.png',
-  '/icons/icon-96x96.png',
-  '/icons/icon-128x128.png',
-  '/icons/icon-144x144.png',
-  '/icons/icon-152x152.png',
-  '/icons/icon-192x192.png',
-  '/icons/icon-384x384.png',
-  '/icons/icon-512x512.png'
-];
+/* ---------- Fonte Roboto ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
+/* ---------- Variáveis globais ---------- */
+:root {
+    --cor-primaria: #1175cc;
+    --cor-primaria-escura: #3a6180;
+    --cor-bg: #f5f7fa;
+    --cor-branco: #ffffff;
+    --cor-borda: #ddd;
+    --cor-sombra: rgba(0, 0, 0, 0.15);
+    --cor-texto: #333;
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request)
-          .then(response => {
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          });
-      })
-  );
-});
+    --fonte: 'Roboto', sans-serif;
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-});
+    --raio: 0.8rem;
+    --transition: 0.3s ease;
+
+}
+
+/* ---------- Reset básico ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fonte);
+  background-color: var(--cor-bg);
+  padding: 2rem;
+  min-height: 100vh;
+  color: var(--cor-texto);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: var(--raio);
+}
+
+/* ---------- Título ---------- */
+.titulo {
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* ---------- Botão de logout ---------- */
+button[onclick="logout()"] {
+  align-self: center;
+  margin-bottom: 1.5rem;
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--raio);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+button[onclick="logout()"]:hover {
+  background-color: var(--cor-primaria-escura);
+}
+
+/* ---------- Lista ---------- */
+#lista {
+  width: 100%;
+  max-width: 600px;
+  list-style: none;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+#lista li {
+  background-color: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 6px var(--cor-sombra);
+}
+
+#lista button {
+  background-color: #ff5c5c;
+  color: var(--cor-branco);
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--raio);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+#lista button:hover {
+  background-color: #d33c3c;
+}
+
+/* ---------- Input + botão de adicionar ---------- */
+#item {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+#item:focus {
+  border-color: var(--cor-primaria-escura);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.25);
+}
+
+button[onclick="adicionarItem()"] {
+  padding: 12px 20px;
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: var(--raio);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+button[onclick="adicionarItem()"]:hover {
+  background-color: var(--cor-primaria-escura);
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 500px) {
+  body {
+    padding: 1rem;
+  }
+
+  #item {
+    width: 100%;
+  }
+
+  #lista li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  button[onclick="logout()"] {
+    align-self: center;
+  }
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* ---------- Input group ---------- */
+.input-group {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.input-group input[type="text"] {
+    flex: 1;
+}
+
+.input-group input[type="number"] {
+    width: 80px;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-info input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.item-comprado .item-info span {
+    text-decoration: line-through;
+    color: #888;
+}
