@@ -1,116 +1,41 @@
-/*---------FONTE---------*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-/*------------VARIÁVEIS GLOBAIS------------------*/
+/* login.css - Atualizado */
 :root {
-    --cor-primaria: #93A3B1;
-    --cor-primaria-escura: #7C898B;
-    --cor-bg: #f5f7fa;
-    --cor-branco: #ffffff;
-    --cor-borda: #ddd;
-    --cor-sombra: rgba(0, 0, 0, 0.15);
-    --cor-texto: #333;
-
-    --fonte: 'Roboto', sans-serif;
-
-    --raio: 0.8rem;
-    --transition: 0.3s ease;
-
+    --cor-primaria: #00f0ff;
+    --cor-primaria-escura: #6e00ff;
+    --cor-secundaria: #ff00f0;
+    --cor-bg: #0a0a12;
+    --cor-branco: #e0e0e0;
+    --cor-borda: #2a2a3a;
+    --cor-sombra: rgba(0, 240, 255, 0.2);
+    --cor-texto: #e0e0e0;
 }
 
-/** -------- reset css--------*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/*-------body----------*/
 body {
-    font-family: var(--fonte);
-    background: #2A7B9B;
-background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 80%, rgba(237, 221, 83, 1) 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-
-/* --------container-------*/
-.container {
     background: var(--cor-bg);
-    padding: clamp(2rem, 5vw, 3rem);
-    border-radius: var(--raio);
-    box-shadow: 0 8px 24px var(--cor-sombra);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(110, 0, 255, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(0, 240, 255, 0.1) 0%, transparent 30%);
 }
 
-/**---------logo---------*/
-#logo {
-    width: 150px;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: var(--raio);
+.container {
+    background: rgba(10, 10, 18, 0.9);
+    border: 1px solid var(--cor-primaria);
+    box-shadow: 0 0 20px var(--cor-sombra);
 }
 
-/*-------título------------*/
-.titulo {
-    font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
-    color: var(--cor-texto);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-}
-
-/*--------inputs--------*/
 input {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    border: 1px solid var(--cor-borda);
-    border-radius: var(--raio);
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-input:focus {
-    border-color: var(--cor-primaria);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.25);
-}
-
-/*-------botoes------*/
-.botoes {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
+    background: rgba(10, 10, 18, 0.7);
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-branco);
 }
 
 button {
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    border-radius: var(--raio);
-    background-color: var(--cor-primaria);
-    transition: var(--transition);
-    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--cor-primaria);
+    color: var(--cor-primaria);
 }
 
 button:hover {
-    background-color: var(--cor-primaria-escura);
-}
-
-@media (max-width: 360px) {
-    .container {
-        padding: 1.5rem;
-    }
-
-    input, button {
-        font-size: 0.95rem;
-    }
+    background: var(--cor-primaria);
+    color: var(--cor-bg);
 }
