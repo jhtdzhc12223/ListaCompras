@@ -1,41 +1,36 @@
-// Adicione no início do app.js
-document.addEventListener('DOMContentLoaded', () => {
-    // Efeito de digitação no título
-    const titulo = document.querySelector('.titulo');
-    if (titulo) {
-        const textoOriginal = titulo.textContent;
-        titulo.textContent = '';
-        
-        let i = 0;
-        const typingEffect = setInterval(() => {
-            if (i < textoOriginal.length) {
-                titulo.textContent += textoOriginal.charAt(i);
-                i++;
-            } else {
-                clearInterval(typingEffect);
-            }
-        }, 100);
-    }
+import { supabase } from './supabaseClient.js'
+
+// Função para criar efeito de partículas
+function createParticles() {
+  const particlesContainer = document.createElement('div');
+  particlesContainer.className = 'particles';
+  document.body.appendChild(particlesContainer);
+  
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
     
-    // Efeito sonoro para interações
-    const playSound = (type) => {
-        if (typeof Audio !== 'undefined') {
-            const sound = new Audio();
-            sound.src = type === 'add' ? 'https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3' : 'https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3';
-            sound.volume = 0.2;
-            sound.play();
-        }
-    };
+    // Tamanho e posição aleatórios
+    const size = Math.random() * 5 + 1;
+    const posX = Math.random() * window.innerWidth;
+    const posY = Math.random() * window.innerHeight;
+    const duration = Math.random() * 20 + 10;
     
-    // Modifique a função adicionarItem para incluir o som
-    window.adicionarItem = async function() {
-        playSound('add');
-        // ... restante do código existente
-    };
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${posX}px`;
+    particle.style.top = `${posY}px`;
+    particle.style.animationDuration = `${duration}s`;
+    particle.style.animationDelay = `${Math.random() * 5}s`;
     
-    // Modifique a função removerItem para incluir o som
-    window.removerItem = async function(id) {
-        playSound('remove');
-        // ... restante do código existente
-    };
-});
+    particlesContainer.appendChild(particle);
+  }
+}
+
+// Inicia o efeito de partículas
+createParticles();
+
+// Resto do código permanece igual...
+// [O restante do seu código app.js original aqui]
