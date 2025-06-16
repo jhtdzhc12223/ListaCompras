@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient.js'
 
-// Função para criar efeito de partículas (mesma do app.js)
+// Função para criar efeito de partículas
 function createParticles() {
   const particlesContainer = document.createElement('div');
   particlesContainer.className = 'particles';
@@ -31,5 +31,49 @@ function createParticles() {
 // Inicia o efeito de partículas
 createParticles();
 
-// Resto do código permanece igual...
-// [O restante do seu código auth.js original aqui]
+// Função para login do usuário
+window.login = async function () {
+  const email = document.getElementById('email').value
+  const senha = document.getElementById('senha').value
+
+  // Autentica com Supabase
+  const { error } = await supabase.auth.signInWithPassword({ email, password: senha })
+  if (error) {
+    alert('Erro no login: ' + error.message)
+  } else {
+    // Redireciona para página principal
+    window.location.href = 'index.html'
+  }
+}
+
+// Função para cadastrar novo usuário (ATUALIZADA)
+window.cadastro = async function () {
+  const email = document.getElementById('email').value
+  const senha = document.getElementById('senha').value
+
+  const { error } = await supabase.auth.signUp({ email, password: senha })
+  if (error) {
+    alert('Erro no cadastro: ' + error.message)
+  } else {
+    // Faz login automaticamente após cadastro
+    const { error: loginError } = await supabase.auth.signInWithPassword({ email, password: senha })
+    
+    if (loginError) {
+      alert('Cadastro realizado! Faça login manualmente.')
+    } else {
+      // Redireciona para página principal
+      window.location.href = 'index.html'
+    }
+  }
+}
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    const caminho = window.location.pathname
+    if (caminho.includes('login')) {
+      login()
+    } else if (caminho.includes('cadastro')) {
+      cadastro()
+    }
+  }
+})
