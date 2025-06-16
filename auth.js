@@ -1,3 +1,4 @@
+// auth.js corrigido
 import { supabase } from './supabaseClient.js'
 
 // Função para criar efeito de partículas
@@ -46,24 +47,38 @@ window.login = async function () {
   }
 }
 
-// Função para cadastrar novo usuário (ATUALIZADA)
+// Função para cadastrar novo usuário (CORRIGIDA)
 window.cadastro = async function () {
   const email = document.getElementById('email').value
   const senha = document.getElementById('senha').value
 
+  // Tenta cadastrar o usuário
   const { error } = await supabase.auth.signUp({ email, password: senha })
+  
   if (error) {
     alert('Erro no cadastro: ' + error.message)
+    return
+  }
+
+  // Tenta fazer login automaticamente após cadastro
+  const { error: loginError } = await supabase.auth.signInWithPassword({ 
+    email, 
+    password: senha 
+  })
+  
+  if (loginError) {
+    alert('Cadastro realizado! Faça login manualmente.')
+    return
+  }
+
+  // Verifica se o login foi bem sucedido
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (user) {
+    // Redireciona para página principal
+    window.location.href = 'index.html'
   } else {
-    // Faz login automaticamente após cadastro
-    const { error: loginError } = await supabase.auth.signInWithPassword({ email, password: senha })
-    
-    if (loginError) {
-      alert('Cadastro realizado! Faça login manualmente.')
-    } else {
-      // Redireciona para página principal
-      window.location.href = 'index.html'
-    }
+    alert('Autenticação falhou após cadastro. Faça login manualmente.')
   }
 }
 
