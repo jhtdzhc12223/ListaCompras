@@ -1,11 +1,11 @@
 {
-  "name": "Lista de Compras",
-  "short_name": "ListaCompras",
-  "description": "Aplicativo de lista de compras",
+  "name": "Lista de Compras Cyber",
+  "short_name": "ListaCyber",
+  "description": "Aplicativo de lista de compras estilo cyberpunk",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#93A3B1",
+  "background_color": "#0a0a16",
+  "theme_color": "#6a00ff",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
