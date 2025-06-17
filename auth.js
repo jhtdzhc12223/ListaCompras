@@ -1,7 +1,6 @@
-// auth.js atualizado
 import { supabase } from './supabaseClient.js'
 
-// Função para criar efeito de partículas (mantida igual)
+// Função para criar efeito de partículas
 function createParticles() {
   const particlesContainer = document.createElement('div');
   particlesContainer.className = 'particles';
@@ -31,24 +30,38 @@ function createParticles() {
 
 createParticles();
 
-// Função para login do usuário (alterada para incluir username)
+// Função para login do usuário
 window.login = async function () {
-  const email = document.getElementById('email').value
-  const senha = document.getElementById('senha').value
+  const email = document.getElementById('email').value;
+  const senha = document.getElementById('senha').value;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password: senha })
+  if (!email || !senha) {
+    alert('Por favor, preencha todos os campos');
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({ 
+    email, 
+    password: senha 
+  });
+
   if (error) {
-    alert('Erro no login: ' + error.message)
+    alert('Erro no login: ' + error.message);
   } else {
-    window.location.href = 'index.html'
+    window.location.href = 'index.html';
   }
 }
 
-// Função para cadastrar novo usuário (atualizada para incluir username)
+// Função para cadastrar novo usuário
 window.cadastro = async function () {
-  const email = document.getElementById('email').value
-  const senha = document.getElementById('senha').value
-  const username = document.getElementById('username').value
+  const email = document.getElementById('email').value;
+  const senha = document.getElementById('senha').value;
+  const username = document.getElementById('username').value;
+
+  if (!email || !senha || !username) {
+    alert('Por favor, preencha todos os campos');
+    return;
+  }
 
   // Primeiro fazemos o cadastro no Auth
   const { data: authData, error: authError } = await supabase.auth.signUp({ 
@@ -59,40 +72,52 @@ window.cadastro = async function () {
         username: username
       }
     }
-  })
+  });
 
   if (authError) {
-    alert('Erro no cadastro: ' + authError.message)
-    return
+    alert('Erro no cadastro: ' + authError.message);
+    return;
   }
 
   // Depois inserimos o username na tabela de perfis
   const { error: profileError } = await supabase
     .from('profiles')
-    .insert([
-      { 
-        id: authData.user.id, 
-        username: username,
-        email: email
-      }
-    ])
+    .insert([{ 
+      id: authData.user.id, 
+      username: username,
+      email: email
+    }]);
 
   if (profileError) {
-    alert('Erro ao criar perfil: ' + profileError.message)
-    return
+    alert('Erro ao criar perfil: ' + profileError.message);
+    return;
   }
 
-  alert('Cadastro realizado! Verifique seu email para confirmar sua conta. Após a confirmação, você poderá fazer login.')
-  window.location.href = 'login.html'
+  alert('Cadastro realizado! Verifique seu email para confirmar sua conta. Após a confirmação, você poderá fazer login.');
+  window.location.href = 'login.html';
 }
 
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-    const caminho = window.location.pathname
+    const caminho = window.location.pathname;
     if (caminho.includes('login')) {
-      login()
+      login();
     } else if (caminho.includes('cadastro')) {
-      cadastro()
+      cadastro();
     }
   }
-})
+});
+
+// Atualiza o Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        registration.update();
+        console.log('ServiceWorker registrado com sucesso:', registration.scope);
+      })
+      .catch(error => {
+        console.log('Falha ao registrar o ServiceWorker:', error);
+      });
+  });
+}
