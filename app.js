@@ -34,75 +34,114 @@ createParticles();
 
 // Recupera o usuário logado. Redireciona para login se não estiver autenticado.
 async function getUser() {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    window.location.href = 'login.html'
-    return null
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  
+  if (authError || !user) {
+    window.location.href = 'login.html';
+    return null;
   }
-  return user
+
+  // Busca informações adicionais do perfil
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('id', user.id)
+    .single();
+
+  if (!profileError && profile) {
+    user.username = profile.username;
+  }
+
+  return user;
 }
 
 // Elementos do DOM
-const lista = document.getElementById('lista')
-const input = document.getElementById('item')
+const lista = document.getElementById('lista');
+const input = document.getElementById('item');
 
 // Carrega a lista de compras do Supabase
 async function carregarLista() {
-  const { data, error } = await supabase.from('lista_compras').select('*')
+  const user = await getUser();
+  if (!user) return;
+  
+  // Atualiza o título com o nome do usuário se disponível
+  if (user.username) {
+    const titulo = document.querySelector('.titulo');
+    titulo.textContent = `Lista de Compras - ${user.username}`;
+  }
+
+  const { data, error } = await supabase.from('lista_compras').select('*');
+  
   if (error) {
-    console.error('Erro ao carregar lista:', error)
-    return
+    console.error('Erro ao carregar lista:', error);
+    return;
   }
 
   // Limpa a lista e renderiza os itens
-  lista.innerHTML = ''
+  lista.innerHTML = '';
   data.forEach((item) => {
-    const li = document.createElement('li')
-    li.innerHTML = `${item.item} <button onclick="removerItem('${item.id}')">Remover</button>`
-    lista.appendChild(li)
-  })
+    const li = document.createElement('li');
+    li.innerHTML = `${item.item} <button onclick="removerItem('${item.id}')">Remover</button>`;
+    lista.appendChild(li);
+  });
 }
 
 // Adiciona novo item à lista de compras
 window.adicionarItem = async function () {
-  const user = await getUser()
-  if (!user) return
+  const user = await getUser();
+  if (!user) return;
   
-  console.log('Usuário:', user)
-  console.log('Item:', input.value)
+  if (!input.value.trim()) {
+    alert('Por favor, digite um item válido');
+    return;
+  }
 
   const { error } = await supabase.from('lista_compras').insert({
     item: input.value,
     adicionada_por: user.id
-  })
+  });
 
-  if (error) return alert('Erro ao adicionar: ' + error.message)
+  if (error) {
+    alert('Erro ao adicionar: ' + error.message);
+    return;
+  }
 
-  input.value = ''
-  carregarLista()
+  input.value = '';
+  await carregarLista();
 }
 
 // Remove item da lista pelo ID
 window.removerItem = async function (id) {
-  const { error } = await supabase.from('lista_compras').delete().eq('id', id)
-  if (error) return alert('Erro ao remover: ' + error.message)
-  carregarLista()
+  const { error } = await supabase.from('lista_compras').delete().eq('id', id);
+  if (error) {
+    alert('Erro ao remover: ' + error.message);
+    return;
+  }
+  await carregarLista();
 }
 
 // Realiza logout do usuário
 window.logout = async function () {
-  await supabase.auth.signOut()
-  window.location.href = 'login.html'
+  await supabase.auth.signOut();
+  window.location.href = 'login.html';
 }
 
 // Inicializa: verifica se o usuário está logado e carrega a lista
 getUser().then(user => {
-  if (user) carregarLista()
-})
+  if (user) {
+    carregarLista();
+    
+    // Mostra o email do usuário no console para debug
+    console.log('Usuário logado:', user.email, 'Username:', user.username || 'Não definido');
+  }
+});
 
 // enter funciona para adicionar item
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-      adicionarItem()
+    adicionarItem();
   }
-})
+});
+
+// Atualiza a lista periodicamente (a cada 30 segundos)
+setInterval(carregarLista, 30000);
