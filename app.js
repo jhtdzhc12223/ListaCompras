@@ -145,3 +145,17 @@ document.addEventListener('keydown', function (event) {
 
 // Atualiza a lista periodicamente (a cada 30 segundos)
 setInterval(carregarLista, 30000);
+
+// Atualiza o Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        registration.update();
+        console.log('ServiceWorker registrado com sucesso:', registration.scope);
+      })
+      .catch(error => {
+        console.log('Falha ao registrar o ServiceWorker:', error);
+      });
+  });
+}
