@@ -30,94 +30,120 @@ function createParticles() {
 
 createParticles();
 
-// Função para login do usuário
-window.login = async function () {
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
+// Função para mostrar/ocultar loading
+function toggleLoading(show) {
+  const btn = document.querySelector('#btn-cadastro');
+  if (btn) {
+    btn.disabled = show;
+    btn.innerHTML = show ? 
+      '<span class="spinner"></span> Processando...' : 
+      'Criar conta';
+  }
+}
 
-  if (!email || !senha) {
-    alert('Por favor, preencha todos os campos');
+// Função para cadastrar novo usuário (completa)
+window.cadastro = async function() {
+  // Obter valores dos campos
+  const username = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value.trim();
+
+  // Validação dos campos
+  if (!username || !email || !senha) {
+    alert('Por favor, preencha todos os campos!');
     return;
   }
 
-  const { error } = await supabase.auth.signInWithPassword({ 
-    email, 
-    password: senha 
+  if (username.length < 3) {
+    alert('Nome de usuário deve ter pelo menos 3 caracteres');
+    return;
+  }
+
+  if (senha.length < 6) {
+    alert('A senha deve ter pelo menos 6 caracteres');
+    return;
+  }
+
+  toggleLoading(true);
+
+  try {
+    // 1. Cadastro no Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password: senha,
+      options: {
+        data: {
+          username: username
+        }
+      }
+    });
+
+    if (authError) throw authError;
+
+    // 2. Criação do perfil na tabela profiles
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([{
+        id: authData.user.id,
+        username,
+        email,
+        created_at: new Date()
+      }]);
+
+    if (profileError) throw profileError;
+
+    // Sucesso
+    alert(`Cadastro realizado com sucesso! Verifique seu email (${email}) para confirmar.`);
+    window.location.href = 'login.html';
+
+  } catch (error) {
+    console.error('Erro no cadastro:', error);
+    alert(`Erro: ${error.message || 'Ocorreu um erro durante o cadastro'}`);
+  } finally {
+    toggleLoading(false);
+  }
+}
+
+// Função para login
+window.login = async function() {
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value.trim();
+
+  if (!email || !senha) {
+    alert('Por favor, preencha todos os campos!');
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password: senha
   });
 
   if (error) {
     alert('Erro no login: ' + error.message);
-  } else {
-    window.location.href = 'index.html';
+    return;
   }
+
+  window.location.href = 'index.html';
 }
 
-// Função para cadastrar novo usuário
-window.cadastro = async function () {
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
-  const username = document.getElementById('username').value;
-
-  if (!email || !senha || !username) {
-    alert('Por favor, preencha todos os campos');
-    return;
-  }
-
-  // Primeiro fazemos o cadastro no Auth
-  const { data: authData, error: authError } = await supabase.auth.signUp({ 
-    email, 
-    password: senha,
-    options: {
-      data: {
-        username: username
-      }
-    }
-  });
-
-  if (authError) {
-    alert('Erro no cadastro: ' + authError.message);
-    return;
-  }
-
-  // Depois inserimos o username na tabela de perfis
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .insert([{ 
-      id: authData.user.id, 
-      username: username,
-      email: email
-    }]);
-
-  if (profileError) {
-    alert('Erro ao criar perfil: ' + profileError.message);
-    return;
-  }
-
-  alert('Cadastro realizado! Verifique seu email para confirmar sua conta. Após a confirmação, você poderá fazer login.');
-  window.location.href = 'login.html';
-}
-
-document.addEventListener('keydown', function (event) {
+// Evento de tecla Enter
+document.addEventListener('keydown', function(event) {
   if (event.key === 'Enter') {
-    const caminho = window.location.pathname;
-    if (caminho.includes('login')) {
-      login();
-    } else if (caminho.includes('cadastro')) {
-      cadastro();
-    }
+    const path = window.location.pathname;
+    if (path.includes('login')) login();
+    else if (path.includes('cadastro')) cadastro();
   }
 });
 
-// Atualiza o Service Worker
+// Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
       .then(registration => {
+        console.log('SW registrado:', registration.scope);
         registration.update();
-        console.log('ServiceWorker registrado com sucesso:', registration.scope);
       })
-      .catch(error => {
-        console.log('Falha ao registrar o ServiceWorker:', error);
-      });
+      .catch(err => console.error('Falha no SW:', err));
   });
 }
