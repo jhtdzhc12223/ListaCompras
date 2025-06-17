@@ -1,1 +1,87 @@
+/* Estilos específicos para a página de cadastro */
 
+.logo-cadastro {
+    animation: pulse 2s infinite alternate;
+}
+
+.form-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.campo-cadastro {
+    margin: 0;
+    padding: 1rem 1.5rem;
+    background: rgba(30, 30, 60, 0.7);
+    border: 1px solid var(--cor-primaria);
+    transition: all 0.3s ease;
+}
+
+.campo-cadastro:focus {
+    transform: scale(1.02);
+    border-color: var(--cor-secundaria);
+}
+
+.botoes-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-primario {
+    background: var(--cor-primaria);
+    color: white;
+    position: relative;
+}
+
+.btn-secundario {
+    background: transparent;
+    color: var(--cor-terciaria);
+    border-color: var(--cor-terciaria);
+}
+
+.spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes spin {
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+/* Validação */
+input:invalid {
+    border-color: var(--cor-destaque);
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+/* Loading state */
+.carregando .btn-texto {
+    visibility: hidden;
+}
+
+.carregando .spinner {
+    display: block;
+}
