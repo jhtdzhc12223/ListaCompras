@@ -1,7 +1,7 @@
-// auth.js corrigido
+// auth.js atualizado
 import { supabase } from './supabaseClient.js'
 
-// Função para criar efeito de partículas
+// Função para criar efeito de partículas (mantida igual)
 function createParticles() {
   const particlesContainer = document.createElement('div');
   particlesContainer.className = 'particles';
@@ -29,37 +29,61 @@ function createParticles() {
   }
 }
 
-// Inicia o efeito de partículas
 createParticles();
 
-// Função para login do usuário
+// Função para login do usuário (alterada para incluir username)
 window.login = async function () {
   const email = document.getElementById('email').value
   const senha = document.getElementById('senha').value
 
-  // Autentica com Supabase
   const { error } = await supabase.auth.signInWithPassword({ email, password: senha })
   if (error) {
     alert('Erro no login: ' + error.message)
   } else {
-    // Redireciona para página principal
     window.location.href = 'index.html'
   }
 }
 
-// Função para cadastrar novo usuário (CORRIGIDA - versão original)
+// Função para cadastrar novo usuário (atualizada para incluir username)
 window.cadastro = async function () {
   const email = document.getElementById('email').value
   const senha = document.getElementById('senha').value
+  const username = document.getElementById('username').value
 
-  const { error } = await supabase.auth.signUp({ email, password: senha })
-  if (error) {
-    alert('Erro no cadastro: ' + error.message)
-  } else {
-    alert('Cadastro realizado! Verifique seu email para confirmar sua conta. Após a confirmação, você poderá fazer login.')
-    // Redireciona para a página de login após cadastro
-    window.location.href = 'login.html'
+  // Primeiro fazemos o cadastro no Auth
+  const { data: authData, error: authError } = await supabase.auth.signUp({ 
+    email, 
+    password: senha,
+    options: {
+      data: {
+        username: username
+      }
+    }
+  })
+
+  if (authError) {
+    alert('Erro no cadastro: ' + authError.message)
+    return
   }
+
+  // Depois inserimos o username na tabela de perfis
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .insert([
+      { 
+        id: authData.user.id, 
+        username: username,
+        email: email
+      }
+    ])
+
+  if (profileError) {
+    alert('Erro ao criar perfil: ' + profileError.message)
+    return
+  }
+
+  alert('Cadastro realizado! Verifique seu email para confirmar sua conta. Após a confirmação, você poderá fazer login.')
+  window.location.href = 'login.html'
 }
 
 document.addEventListener('keydown', function (event) {
