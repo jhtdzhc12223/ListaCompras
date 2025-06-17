@@ -1,158 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Metadados básicos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Lista de Compras Cyber</title>
-    
-    <!-- Metadados para PWA -->
     <meta name="theme-color" content="#0a0a16">
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Favicon e ícones -->
     <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    
-    <!-- Estilos -->
     <link rel="stylesheet" href="login.css">
-    
-    <!-- Política de Segurança de Conteúdo -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://mhlqgelfaikpijgkmkwz.supabase.co">
 </head>
-
 <body>
-    <!-- Container principal -->
     <div class="container">
-        <!-- Logo -->
-        <img id="logo" src="icons/icon-512x512.png" alt="Logo do aplicativo" class="logo-animado">
-        
-        <!-- Título -->
+        <img id="logo" src="icons/icon-512x512.png" alt="logo">
         <h2 class="titulo">Cadastro</h2>
         
-        <!-- Formulário de cadastro -->
-        <form id="form-cadastro" onsubmit="event.preventDefault(); cadastro();">
-            <!-- Campo de nome de usuário -->
-            <div class="input-group">
-                <label for="username" class="sr-only">Nome de usuário</label>
-                <input type="text" 
-                       id="username" 
-                       placeholder="Nome de usuário"
-                       required
-                       minlength="3"
-                       maxlength="20"
-                       pattern="[a-zA-Z0-9]+"
-                       title="Use apenas letras e números (sem espaços ou caracteres especiais)">
-            </div>
+        <!-- FORMULÁRIO DE CADASTRO COM NOME DE USUÁRIO VISÍVEL -->
+        <div class="form-group">
+            <input type="text" 
+                   id="username" 
+                   placeholder="Nome de usuário"
+                   required
+                   minlength="3"
+                   class="input-field">
             
-            <!-- Campo de email -->
-            <div class="input-group">
-                <label for="email" class="sr-only">Email</label>
-                <input type="email" 
-                       id="email" 
-                       placeholder="Email"
-                       required
-                       autocomplete="username">
-            </div>
+            <input type="email" 
+                   id="email" 
+                   placeholder="Email"
+                   required
+                   class="input-field">
             
-            <!-- Campo de senha -->
-            <div class="input-group">
-                <label for="senha" class="sr-only">Senha</label>
-                <input type="password" 
-                       id="senha" 
-                       placeholder="Senha"
-                       required
-                       minlength="6"
-                       autocomplete="new-password">
-            </div>
-            
-            <!-- Botões de ação -->
-            <div class="botoes">
-                <button type="submit" class="btn-primario" onclick="cadastro()">
-                    <span class="btn-texto">Criar conta</span>
-                    <span class="btn-carregando" aria-hidden="true"></span>
-                </button>
-                
-                <button type="button" class="btn-secundario" onclick="window.location.href='login.html'">
-                    Voltar para Login
-                </button>
-            </div>
-        </form>
+            <input type="password" 
+                   id="senha" 
+                   placeholder="Senha"
+                   required
+                   minlength="6"
+                   class="input-field">
+        </div>
+        
+        <div class="botoes">
+            <button onclick="cadastro()" class="btn-cadastro">Criar conta</button>
+            <button onclick="window.location.href='login.html'" class="btn-voltar">Voltar</button>
+        </div>
     </div>
 
-    <!-- Scripts -->
     <script type="module" src="auth.js"></script>
-    
-    <!-- Registro do Service Worker -->
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
                         console.log('ServiceWorker registrado com sucesso:', registration.scope);
-                        
-                        // Verifica se há atualizações disponíveis
-                        registration.update();
                     })
                     .catch(error => {
-                        console.error('Falha ao registrar o ServiceWorker:', error);
+                        console.log('Falha ao registrar o ServiceWorker:', error);
                     });
             });
         }
-        
-        // Feedback visual durante o cadastro
-        function mostrarCarregamento(mostrar) {
-            const btn = document.querySelector('.btn-primario');
-            const texto = btn.querySelector('.btn-texto');
-            const carregando = btn.querySelector('.btn-carregando');
-            
-            if (mostrar) {
-                btn.disabled = true;
-                texto.style.visibility = 'hidden';
-                carregando.style.display = 'inline-block';
-            } else {
-                btn.disabled = false;
-                texto.style.visibility = 'visible';
-                carregando.style.display = 'none';
+
+        // Adicione este CSS dinâmico para garantir que o campo de usuário fique visível
+        const style = document.createElement('style');
+        style.textContent = `
+            .input-field {
+                width: 100%;
+                padding: 14px;
+                margin: 10px 0;
+                background: rgba(20, 20, 40, 0.7);
+                border: 1px solid var(--cor-primaria);
+                border-radius: var(--raio);
+                font-size: 1rem;
+                color: var(--cor-texto);
+                font-family: var(--fonte);
+                box-shadow: var(--sombra-neon-roxo);
+                transition: var(--transition);
             }
-        }
+            
+            .input-field:focus {
+                border-color: var(--cor-secundaria);
+                outline: none;
+                box-shadow: 0 0 15px var(--cor-secundaria), 
+                            0 0 30px rgba(0, 240, 255, 0.2);
+            }
+            
+            .btn-cadastro {
+                background: var(--cor-secundaria);
+                color: var(--cor-bg);
+                font-weight: bold;
+            }
+            
+            .btn-voltar {
+                background: transparent;
+                color: var(--cor-terciaria);
+                border: 1px solid var(--cor-terciaria);
+            }
+        `;
+        document.head.appendChild(style);
     </script>
-    
-    <!-- Estilos inline para elementos dinâmicos -->
-    <style>
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-        
-        .btn-carregando {
-            display: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .logo-animado {
-            transition: all 0.5s ease;
-        }
-        
-        .logo-animado:hover {
-            transform: rotate(10deg) scale(1.05);
-        }
-    </style>
 </body>
 </html>
